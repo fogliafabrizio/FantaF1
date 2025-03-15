@@ -43,7 +43,7 @@ public class PilotService {
      */
     @Scheduled(cron = "0 0 12 1 * ?") // Aggiornamento ogni primo del mese alle 12:00
     @Transactional
-    public void updateDriversFromApi() {
+    protected void updateDriversFromApi() {
         log.info("🔄 Avvio aggiornamento piloti da API...");
 
         try {
