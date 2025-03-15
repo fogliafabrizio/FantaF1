@@ -1,0 +1,50 @@
+# === General ===
+.DS_Store
+*.log
+*.env
+*.swp
+
+# === Java / Spring Boot ===
+target/
+*.jar
+*.war
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+mvnw
+mvnw.cmd
+spring.log
+hs_err_pid*
+
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+pip-log.txt
+poetry.lock
+
+# === Node.js / Frontend ===
+node_modules/
+dist/
+npm-debug.log*
+yarn-error.log
+
+# === Docker ===
+docker-compose.override.yml
+*.dockerfile
+*.tar
+*.img
+
+# === PostgreSQL / MongoDB ===
+*.sql
+*.sqlite
+pgdata/
+mongodata/
+
+# === GitHub Actions Cache ===
+.github/workflows/*.log
+.github/actions/cache
