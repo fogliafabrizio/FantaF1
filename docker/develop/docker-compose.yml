@@ -4,13 +4,13 @@ services:
     container_name: fantaf1-db-dev
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - fantaf1-db-data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
 
   adminer:
     image: adminer

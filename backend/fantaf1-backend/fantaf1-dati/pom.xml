@@ -11,10 +11,6 @@
 
     <artifactId>fantaf1-dati</artifactId>
 
-    <dependencies>
-        <!-- Non serve più spring-boot-starter-web -->
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>

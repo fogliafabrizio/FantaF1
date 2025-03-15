@@ -38,6 +38,7 @@ docker-compose.override.yml
 *.dockerfile
 *.tar
 *.img
+**/init-scripts
 
 # === PostgreSQL / MongoDB ===
 *.sql
