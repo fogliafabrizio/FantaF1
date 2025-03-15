@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## LOGS ##
+*.log
+/logs
+
+application-local.yaml
+application-local.yml
