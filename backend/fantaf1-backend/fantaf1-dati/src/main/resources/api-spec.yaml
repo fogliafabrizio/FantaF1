@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: API di Prova
+  description: API di esempio per testare OpenAPI Generator
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Server di sviluppo locale
+
+paths:
+  /hello:
+    get:
+      summary: Restituisce un messaggio di saluto
+      operationId: getHelloMessage
+      tags:
+        - Saluti
+      responses:
+        "200":
+          description: Risposta di successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Ciao, benvenuto nell'API di prova!"
+
+  /users:
+    get:
+      summary: Restituisce la lista degli utenti
+      operationId: getUsers
+      tags:
+        - Utenti
+      responses:
+        "200":
+          description: Lista utenti recuperata con successo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        username:
+          type: string
+          example: "fabrizio"
+        email:
+          type: string
+          example: "fabrizio@example.com"
