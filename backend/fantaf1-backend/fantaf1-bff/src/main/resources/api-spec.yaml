@@ -9,7 +9,7 @@ servers:
     description: Server BFF di sviluppo locale
 
 paths:
-  /bff/piloti:
+  /fantaf1-bff/piloti:
     get:
       summary: Restituisce la lista dei piloti per un anno specifico (chiamando /dati/piloti)
       operationId: getPilotiFromDati
@@ -33,7 +33,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Pilota"
 
-  /bff/piloti/{id}:
+  /fantaf1-bff/piloti/{id}:
     get:
       summary: Restituisce i dettagli di un pilota tramite ID (chiamando /dati/piloti/{id})
       operationId: getPilotaByIdFromDati
