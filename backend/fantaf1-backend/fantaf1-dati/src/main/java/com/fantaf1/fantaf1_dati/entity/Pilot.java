@@ -2,12 +2,15 @@ package com.fantaf1.fantaf1_dati.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pilots", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "driver_id") // Impedisce ID duplicati
+        @UniqueConstraint(columnNames = {"driver_id", "season"}) // Impedisce ID duplicati
 })
 @Getter
 @Setter
@@ -20,7 +23,7 @@ public class Pilot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Chiave primaria automatica
 
-    @Column(name = "driver_id", unique = true, nullable = false)
+    @Column(name = "driver_id", nullable = false)
     private String driverId; // ID ufficiale del pilota
 
     @Column(name = "first_name", nullable = false)
@@ -46,5 +49,14 @@ public class Pilot {
 
     @Column(name = "season", nullable = false)
     private Integer season; // Stagione di appartenenza
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
 }
 
