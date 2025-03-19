@@ -49,3 +49,26 @@ mongodata/
 # === GitHub Actions Cache ===
 .github/workflows/*.log
 .github/actions/cache
+
+# === IntelliJ IDEA ===
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+target/
+build/
+.gradle/
+.vscode/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.ipr
+*.iws
+
+# Spring
+**/application-local.yaml
+**/application-local.yml
+

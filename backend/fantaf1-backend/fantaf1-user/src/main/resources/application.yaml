@@ -1,6 +1,6 @@
 spring:
   application:
-  name: fantaf1-dati
+    name: fantaf1-user
   datasource:
     url: jdbc:postgresql://localhost:5432/${DB_NAME}
     username: ${DB_USER}
@@ -9,8 +9,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          secret-key: ${SECRET_KEY}
+
+server:
+    port: 8083
+
+jwt:
+  secret-key: ${SECRET_KEY}

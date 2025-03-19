@@ -1,6 +1,11 @@
 spring:
   application:
   name: fantaf1-dati
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: ${SECRET_KEY}
 
 server:
   port: 8082

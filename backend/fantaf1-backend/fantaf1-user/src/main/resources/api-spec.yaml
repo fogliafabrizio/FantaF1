@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info:
+  title: FantaF1 User API
+  description: API per la gestione degli utenti e autenticazione nella FantaFormula1
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8082
+    description: Server di sviluppo locale per il servizio utenti
+
+paths:
+  /auth/login:
+    post:
+      summary: Effettua il login e restituisce un JWT
+      operationId: login
+      tags:
+        - Autenticazione
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login avvenuto con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtResponse"
+
+  /auth/me:
+    get:
+      summary: Restituisce le informazioni dell'utente loggato
+      operationId: getMe
+      tags:
+        - Autenticazione
+      responses:
+        "200":
+          description: Informazioni utente recuperate con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+
+  /auth/create-user:
+    post:
+      summary: Crea un nuovo utente (solo per admin)
+      operationId: createUser
+      tags:
+        - Utenti
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        "201":
+          description: Utente creato con successo
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "fabrizio"
+        password:
+          type: string
+          example: "password123"
+
+    JwtResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        role:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [SUPER_ADMIN, ADMIN, USER, VIEWER]

@@ -11,10 +11,10 @@
 
     <!-- File Logging con Rotazione Giornaliera + Limite di Dimensione -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/fantaf1-bff.log</file>
+        <file>${LOG_DIR}/fantaf1-user.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- Nome file con data e rotazione per dimensione -->
-            <fileNamePattern>${LOG_DIR}/fantaf1-bff-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/fantaf1-user-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 
             <!-- Rotazione giornaliera -->
             <maxHistory>7</maxHistory> <!-- Mantiene log degli ultimi 7 giorni -->
@@ -31,7 +31,7 @@
     </appender>
 
     <!-- Logger di FantaF1 -->
-    <logger name="com.fantaf1.bff" level="INFO" additivity="false">
+    <logger name="com.fantaf1.user" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
