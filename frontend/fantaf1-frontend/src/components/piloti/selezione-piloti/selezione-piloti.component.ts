@@ -95,4 +95,8 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
     );
     this.budgetRimanente = 100 - this.totaleCosto;
   }
+
+  isButtonDisabled() {
+    return !this.gara?.scelteAperte;
+  }
 }
