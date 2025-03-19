@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: FantaF1 BFF API
+  description: BFF API che chiama i servizi /dati per recuperare le informazioni sui piloti
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8081
+    description: Server BFF di sviluppo locale
+
+paths:
+  /bff/piloti:
+    get:
+      summary: Restituisce la lista dei piloti per un anno specifico (chiamando /dati/piloti)
+      operationId: getPilotiFromDati
+      tags:
+        - Piloti
+      parameters:
+        - name: anno
+          in: query
+          description: Anno della stagione
+          required: true
+          schema:
+            type: integer
+            example: 2025
+      responses:
+        "200":
+          description: Lista piloti recuperata tramite il servizio dati
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pilota"
+
+  /bff/piloti/{id}:
+    get:
+      summary: Restituisce i dettagli di un pilota tramite ID (chiamando /dati/piloti/{id})
+      operationId: getPilotaByIdFromDati
+      tags:
+        - Piloti
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Dettaglio pilota recuperato tramite il servizio dati
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pilota"
+
+components:
+  schemas:
+    Pilota:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        driver_id:
+          type: string
+          example: "max_verstappen"
+        sigla:
+          type: string
+          example: "VER"
+        nome:
+          type: string
+          example: "Max"
+        cognome:
+          type: string
+          example: "Verstappen"
+        numero:
+          type: integer
+          format: int32
+          example: 33
+        nazionalita:
+          type: string
+          example: "Paesi Bassi"
