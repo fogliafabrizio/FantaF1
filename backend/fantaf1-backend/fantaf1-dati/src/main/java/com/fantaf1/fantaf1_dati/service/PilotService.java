@@ -125,7 +125,7 @@ public class PilotService {
      */
     @Scheduled(cron = "0 0 2 * * ?") // Aggiornamento ogni giorno alle 02:00
     @Transactional
-    protected void updateDriversFromApi() {
+    public void updateDriversFromApi() {
         updateDriversFromApi(LocalDate.now().getYear());
     }
 

@@ -1,0 +1,19 @@
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+table {
+  min-width: 600px; // imposta una larghezza minima per evitare compressioni brutte
+}
+
+table th,
+table td {
+  white-space: nowrap; // impedisce di andare a capo
+  padding: 8px 12px;
+}
+
+table {
+  border-collapse: collapse;
+}

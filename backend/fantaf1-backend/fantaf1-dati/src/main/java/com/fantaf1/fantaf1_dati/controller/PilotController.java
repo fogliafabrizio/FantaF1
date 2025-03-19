@@ -48,6 +48,6 @@ public class PilotController implements PilotiApi {
 
     @Override
     public ResponseEntity<List<PilotaConCosto>> getPilotiConCostoByAnno(Integer anno) {
-        return ResponseEntity.ok(e2p.map(pilotService.getDriversWithCostBySeason(anno)));
+        return ResponseEntity.ok(e2p.mapPilot(pilotService.getDriversWithCostBySeason(anno)));
     }
 }

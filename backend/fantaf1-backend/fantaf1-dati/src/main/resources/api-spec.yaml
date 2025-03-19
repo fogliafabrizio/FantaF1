@@ -140,6 +140,20 @@ paths:
                 items:
                   $ref: "#/components/schemas/PilotaConCosto"
 
+  /gare/prossima-gara:
+    get:
+      summary: Restituisce la prossima gara con tutte le sue sessioni
+      operationId: getNextRaceWithSessions
+      tags:
+        - Gare
+      responses:
+        "200":
+          description: Dettaglio della prossima gara recuperato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NextRaceResponse"
+
 components:
   schemas:
     Pilota:
@@ -195,3 +209,36 @@ components:
         costo:
           type: integer
           example: 47
+
+    NextRaceResponse:
+      type: object
+      properties:
+        raceName:
+          type: string
+          example: "Australian Grand Prix"
+        circuitName:
+          type: string
+          example: "Albert Park Grand Prix Circuit"
+        country:
+          type: string
+          example: "Australia"
+        dateTimeRace:
+          type: string
+          format: date-time
+        urlWikipedia:
+          type: string
+          example: "https://en.wikipedia.org/wiki/2025_Australian_Grand_Prix"
+        sessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/RaceSessionResponse"
+
+    RaceSessionResponse:
+      type: object
+      properties:
+        sessionType:
+          type: string
+          example: "QUALIFYING"
+        sessionDateTime:
+          type: string
+          format: date-time
