@@ -55,7 +55,6 @@ public class PilotService {
      * 🔄 Metodo che ritorna la lista di piloti dato l'anno
      */
     public List<Pilot> getDriversBySeason(int season) {
-        updateDriversFromApi(season);
         return pilotRepository.findAllBySeason(season);
     }
 
@@ -124,7 +123,7 @@ public class PilotService {
     /**
      * 🔄 Metodo che chiamerà l'API per aggiornare i piloti nel database.
      */
-    @Scheduled(cron = "0 0 12 1 * ?") // Aggiornamento ogni primo del mese alle 12:00
+    @Scheduled(cron = "0 0 2 * * ?") // Aggiornamento ogni giorno alle 02:00
     @Transactional
     protected void updateDriversFromApi() {
         updateDriversFromApi(LocalDate.now().getYear());

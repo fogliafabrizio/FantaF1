@@ -33,6 +33,30 @@ paths:
                 items:
                   $ref: "#/components/schemas/Pilota"
 
+  /fantaf1-bff/piloti-con-costo:
+    get:
+      summary: Restituisce la lista dei piloti con costo per un anno specifico (aggregata dal servizio dati)
+      operationId: getPilotiConCostoFromDati
+      tags:
+        - Piloti
+      parameters:
+        - name: anno
+          in: query
+          description: Anno della stagione
+          required: true
+          schema:
+            type: integer
+            example: 2025
+      responses:
+        "200":
+          description: Lista piloti con costo recuperata tramite il servizio dati
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PilotaConCosto"
+
   /fantaf1-bff/piloti/{id}:
     get:
       summary: Restituisce i dettagli di un pilota tramite ID (chiamando /dati/piloti/{id})
@@ -81,3 +105,22 @@ components:
         nazionalita:
           type: string
           example: "Paesi Bassi"
+    PilotaConCosto:
+      type: object
+      properties:
+        id:
+          type: integer
+        driverId:
+          type: string
+        nome:
+          type: string
+        cognome:
+          type: string
+        sigla:
+          type: string
+        costo:
+          type: integer
+        numero:
+          type: integer
+        nazionalita:
+          type: string

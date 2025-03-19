@@ -1,21 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Fantaf1BffService } from '../service/fantaf1-bff.service';
-import { HttpClient } from '@angular/common/http';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MatToolbarModule, MatButtonModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  constructor(private readonly _bffService: Fantaf1BffService) {}
-
-  ngOnInit(): void {
-    this._bffService.getDriversByYear(2021).subscribe((res) => {
-      console.log(res);
-    });
-  }
-}
+export class AppComponent {}

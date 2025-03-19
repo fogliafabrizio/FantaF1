@@ -4,6 +4,7 @@ import com.fantaf1.fantaf1_bff.service.DatiService;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.Fantaf1BffApi;
 import org.openapitools.model.Pilota;
+import org.openapitools.model.PilotaConCosto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,8 +17,8 @@ public class PilotiController implements Fantaf1BffApi {
     private final DatiService datiService;
 
     @Override
-    public ResponseEntity<Pilota> getPilotaByIdFromDati(Integer id) {
-        return Fantaf1BffApi.super.getPilotaByIdFromDati(id);
+    public ResponseEntity<List<PilotaConCosto>> getPilotiConCostoFromDati(Integer anno) {
+        return ResponseEntity.ok(datiService.getPilotaByAnnoConCosto(anno));
     }
 
     @Override
