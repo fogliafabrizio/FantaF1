@@ -34,6 +34,7 @@ public interface EntityToPresentation {
     @Mapping(target = "costo", source = "currentCredit.currentValue")
     PilotaConCosto map (Pilot pilota, PilotCurrentCredit currentCredit);
 
+    @Mapping(target = "id", source = "race.id")
     @Mapping(target = "raceName", source = "race.raceName")
     @Mapping(target = "circuitName", source = "race.circuitName")
     @Mapping(target = "country", source = "race.country")

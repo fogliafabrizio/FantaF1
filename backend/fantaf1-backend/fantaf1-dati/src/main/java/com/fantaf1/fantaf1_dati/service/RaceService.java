@@ -50,7 +50,7 @@ public class RaceService {
     }
 
     public Map<Race, List<RaceSession>> getNextRaceWithSessions() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now().minusDays(1L);
         Optional<Race> nextRaceOpt = raceRepository.findFirstByDateTimeRaceAfterOrderByDateTimeRaceAsc(now);
 
         if (nextRaceOpt.isEmpty()) {

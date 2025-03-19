@@ -14,7 +14,7 @@ paths:
       summary: Restituisce la lista dei piloti per un anno specifico (chiamando /dati/piloti)
       operationId: getPilotiFromDati
       tags:
-        - Piloti
+        - Dati
       parameters:
         - name: anno
           in: query
@@ -38,7 +38,7 @@ paths:
       summary: Restituisce la lista dei piloti con costo per un anno specifico (aggregata dal servizio dati)
       operationId: getPilotiConCostoFromDati
       tags:
-        - Piloti
+        - Dati
       parameters:
         - name: anno
           in: query
@@ -62,7 +62,7 @@ paths:
       summary: Restituisce i dettagli di un pilota tramite ID (chiamando /dati/piloti/{id})
       operationId: getPilotaByIdFromDati
       tags:
-        - Piloti
+        - Dati
       parameters:
         - name: id
           in: path
@@ -77,6 +77,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pilota"
+
+  /fantaf1-bff/limite-scelta:
+    get:
+      summary: Restituisce i dati della prossima gara e la scadenza per effettuare le scelte
+      operationId: getLimiteScelta
+      tags:
+        - Dati
+      responses:
+        "200":
+          description: Informazioni sulla prossima gara e scadenza per le selezioni
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LimiteSceltaResponse"
 
 components:
   schemas:
@@ -124,3 +138,32 @@ components:
           type: integer
         nazionalita:
           type: string
+    LimiteSceltaResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        raceName:
+          type: string
+          example: "Chinese Grand Prix"
+        circuitName:
+          type: string
+          example: "Shanghai International Circuit"
+        country:
+          type: string
+          example: "China"
+        dateTimeRace:
+          type: string
+          format: date-time
+          example: "2025-03-23T08:00:00+01:00"
+        urlWikipedia:
+          type: string
+          example: "https://en.wikipedia.org/wiki/2025_Chinese_Grand_Prix"
+        scadenzaScelte:
+          type: string
+          format: date-time
+          example: "2025-03-21T04:30:00+01:00"
+        scelteAperte:
+          type: boolean
+          example: true

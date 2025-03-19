@@ -213,6 +213,9 @@ components:
     NextRaceResponse:
       type: object
       properties:
+        id:
+          type: integer
+          example: 1
         raceName:
           type: string
           example: "Australian Grand Prix"

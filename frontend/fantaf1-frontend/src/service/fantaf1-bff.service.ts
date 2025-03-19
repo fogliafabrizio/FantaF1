@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Pilota, PilotaConCosto } from '../models/piloti.model';
+import { Gara } from '../models/gare.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +25,9 @@ export class Fantaf1BffService {
         params: { anno: year },
       }
     );
+  }
+
+  getNextRaceInfo(): Observable<Gara> {
+    return this._httpClient.get<Gara>(`${this.baseUrl}/limite-scelta`);
   }
 }

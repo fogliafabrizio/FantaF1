@@ -1,12 +1,17 @@
 <div class="selezione-container">
-  <h3>Countdown alla prossima gara</h3>
-  <div class="countdown">00 giorni 12h 34m 56s</div>
+  <h3>Countdown alla chiusura delle selezioni</h3>
+  <div class="countdown">{{ countdownString }}</div>
 
   <h3>Prossima gara</h3>
   <div class="next-race">
-    <p><strong>GP di Imola</strong></p>
-    <p>Data: 19 Maggio 2025</p>
-    <p>Circuito: Autodromo Enzo e Dino Ferrari</p>
+    <p>
+      <strong>{{ gara?.raceName }}</strong> ({{ gara?.country }})
+    </p>
+    <p>
+      Data:
+      {{ gara?.dateTimeRace | date : "dd/MM/yyyy HH:mm" : "short" : "it-IT" }}
+    </p>
+    <p>Circuito: {{ gara?.circuitName }}</p>
   </div>
 
   <h3>Seleziona i tuoi piloti</h3>
@@ -41,6 +46,8 @@
       </p>
     </div>
 
-    <button mat-raised-button color="primary">Conferma Selezione</button>
+    <button mat-raised-button color="primary" [disabled]="!gara.scelteAperte">
+      Conferma Selezione
+    </button>
   </form>
 </div>
