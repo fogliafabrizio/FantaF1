@@ -1,9 +1,11 @@
 package com.fantaf1.fantaf1_bff.mapper;
 
+import com.fantaf1.fantaf1_bff.model.LoginDTO;
 import com.fantaf1.fantaf1_bff.model.PilotaConCostoDTO;
 import com.fantaf1.fantaf1_bff.model.ProssimaGaraDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.openapitools.model.JwtResponse;
 import org.openapitools.model.LimiteSceltaResponse;
 import org.openapitools.model.PilotaConCosto;
 
@@ -34,4 +36,6 @@ public interface ModelToPresentationMapper {
     @Mapping(target = "scadenzaScelte", source = "scadenza")
     @Mapping(target = "scelteAperte", source = "isOpen")
     LimiteSceltaResponse map(ProssimaGaraDTO prossimaGara, OffsetDateTime scadenza, Boolean isOpen);
+
+    JwtResponse map(LoginDTO loginDTO);
 }

@@ -30,4 +30,11 @@ export class Fantaf1BffService {
   getNextRaceInfo(): Observable<Gara> {
     return this._httpClient.get<Gara>(`${this.baseUrl}/limite-scelta`);
   }
+
+  login(username: string, password: string): Observable<any> {
+    return this._httpClient.post(`${this.baseUrl}/login`, {
+      username,
+      password,
+    });
+  }
 }

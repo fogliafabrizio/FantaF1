@@ -15,6 +15,8 @@ paths:
       operationId: getPilotiFromDati
       tags:
         - Dati
+      security:
+        - cookieAuth: [ ]
       parameters:
         - name: anno
           in: query
@@ -45,6 +47,8 @@ paths:
       operationId: getPilotiConCostoFromDati
       tags:
         - Dati
+      security:
+        - cookieAuth: [ ]
       parameters:
         - name: anno
           in: query
@@ -75,6 +79,8 @@ paths:
       operationId: getPilotaByIdFromDati
       tags:
         - Dati
+      security:
+        - cookieAuth: [ ]
       parameters:
         - name: id
           in: path
@@ -104,6 +110,8 @@ paths:
       operationId: getLimiteScelta
       tags:
         - Dati
+      security:
+        - cookieAuth: [ ]
       responses:
         "200":
           description: Informazioni sulla prossima gara e scadenza per le selezioni
@@ -115,6 +123,32 @@ paths:
           description: Non autorizzato - Token mancante o invalido nel cookie
         "403":
           description: Accesso vietato
+        "500":
+          description: Errore interno del server
+
+  /fantaf1-bff/login:
+    post:
+      summary: Effettua il login e ottiene il JWT
+      operationId: login
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login effettuato con successo, JWT restituito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtResponse"
+        "400":
+          description: Richiesta errata - Dati mancanti o non validi
+        "401":
+          description: Credenziali errate
         "500":
           description: Errore interno del server
 
@@ -202,5 +236,19 @@ components:
           type: boolean
           example: true
 
-security:
-  - cookieAuth: []
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "fabrizio"
+        password:
+          type: string
+          example: "superpassword123"
+
+    JwtResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."

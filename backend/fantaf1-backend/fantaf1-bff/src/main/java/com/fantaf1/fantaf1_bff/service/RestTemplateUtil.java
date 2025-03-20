@@ -26,6 +26,31 @@ public class RestTemplateUtil {
         );
     }
 
+    public <T> ResponseEntity<T> postForObject(String url, Object body, Class<T> responseType) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(getToken());
+        HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
+
+        return restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                responseType
+        );
+    }
+
+    public <T> ResponseEntity<T> postForObjectWithoutToken(String url, Object body, Class<T> responseType) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
+
+        return restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                responseType
+        );
+    }
+
     private static String getToken(){
         return ((JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getToken().getTokenValue();
     }
