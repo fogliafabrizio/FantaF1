@@ -4,7 +4,15 @@ import { Fantaf1BffService } from '../../../service/fantaf1-bff.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
+import { EditPriceDialog } from './edit-price-dialog/edit-price-dialog.component';
 
 @Component({
   selector: 'ff1-tabella-piloti',
@@ -19,16 +27,27 @@ export class TabellaPilotiComponent {
 
   displayedColumns = ['numero', 'sigla', 'nome', 'cognome', 'costo', 'azioni'];
 
-  constructor(private readonly _bffService: Fantaf1BffService) {}
+  constructor(
+    private readonly _bffService: Fantaf1BffService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {}
 
   viewHistory(pilota: Pilota) {
-    alert(`Azione su ${pilota.nome} ${pilota.cognome}`);
+    alert(`Azione su ${pilota.id} ${pilota.nome} ${pilota.cognome}`);
   }
 
   editPrice(pilota: Pilota) {
-    alert(`Azione su ${pilota.nome} ${pilota.cognome}`);
+    this.dialog
+      .open(EditPriceDialog, {
+        width: '300px',
+        data: { pilota },
+      })
+      .afterClosed()
+      .subscribe(() => {
+        window.location.reload();
+      });
   }
 
   viewStats(pilota: Pilota) {

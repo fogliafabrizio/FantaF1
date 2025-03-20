@@ -43,6 +43,7 @@
           mat-icon-button
           matTooltip="Storico Prezzo"
           (click)="viewHistory(pilota)"
+          [disabled]="true"
         >
           <mat-icon>history</mat-icon>
         </button>
@@ -50,6 +51,7 @@
           mat-icon-button
           matTooltip="Statistiche Pilota"
           (click)="viewStats(pilota)"
+          [disabled]="true"
         >
           <mat-icon>bar_chart</mat-icon>
         </button>

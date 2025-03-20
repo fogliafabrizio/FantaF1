@@ -36,4 +36,9 @@ public class BFFController implements Fantaf1BffApi {
     public ResponseEntity<JwtResponse> login(LoginRequest loginRequest) {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
+
+    @Override
+    public ResponseEntity<Void> aggiornaCostoPilota(Integer id, AggiornaCostoRequest aggiornaCostoRequest) {
+        return ResponseEntity.ok(datiService.aggiornaCostoPilota(id, aggiornaCostoRequest));
+    }
 }

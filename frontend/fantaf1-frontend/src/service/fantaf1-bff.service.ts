@@ -37,4 +37,13 @@ export class Fantaf1BffService {
       password,
     });
   }
+
+  aggiornaPilotaCosto(id: number, costo: number): Observable<any> {
+    return this._httpClient.post(
+      `${this.baseUrl}/piloti/${id}/aggiorna-costo`,
+      {
+        nuovoValore: costo,
+      }
+    );
+  }
 }

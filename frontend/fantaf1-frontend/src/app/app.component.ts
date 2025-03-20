@@ -49,6 +49,8 @@ export class AppComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('jwt');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 }

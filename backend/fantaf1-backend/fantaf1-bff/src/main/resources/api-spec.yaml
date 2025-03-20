@@ -152,6 +152,40 @@ paths:
         "500":
           description: Errore interno del server
 
+  /fantaf1-bff/piloti/{id}/aggiorna-costo:
+    post:
+      summary: Aggiorna il costo di un pilota dato il suo ID
+      operationId: aggiornaCostoPilota
+      tags:
+        - Dati
+      security:
+        - cookieAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del pilota
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AggiornaCostoRequest'
+      responses:
+        "200":
+          description: Costo aggiornato con successo
+        "400":
+          description: Richiesta non valida
+        "401":
+          description: Non autorizzato
+        "404":
+          description: Pilota non trovato
+        "500":
+          description: Errore interno del server
+
 components:
   securitySchemes:
     cookieAuth:
@@ -252,3 +286,10 @@ components:
         token:
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+    AggiornaCostoRequest:
+      type: object
+      properties:
+        nuovoValore:
+          type: integer
+          example: 45

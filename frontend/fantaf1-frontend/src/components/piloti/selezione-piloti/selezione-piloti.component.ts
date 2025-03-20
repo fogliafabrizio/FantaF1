@@ -97,6 +97,6 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
   }
 
   isButtonDisabled() {
-    return !this.gara?.scelteAperte;
+    return !this.gara?.scelteAperte || this.budgetRimanente < 0;
   }
 }

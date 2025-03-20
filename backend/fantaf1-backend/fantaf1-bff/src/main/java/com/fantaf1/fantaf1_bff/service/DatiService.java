@@ -6,21 +6,15 @@ import com.fantaf1.fantaf1_bff.model.PilotaConCostoDTO;
 import com.fantaf1.fantaf1_bff.model.ProssimaGaraDTO;
 import com.fantaf1.fantaf1_bff.model.SessionDTO;
 import com.fantaf1.fantaf1_bff.model.enums.SessionType;
+import org.openapitools.model.AggiornaCostoRequest;
 import org.openapitools.model.LimiteSceltaResponse;
 import org.openapitools.model.Pilota;
 import org.openapitools.model.PilotaConCosto;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -69,5 +63,11 @@ public class DatiService {
             }
         }
         return null;
+    }
+
+    public Void aggiornaCostoPilota(Integer id, AggiornaCostoRequest nuovoValore) {
+        String url = baseUrl + "/piloti/" + id;
+        ResponseEntity<Void> response = restTemplateUtil.postForObject(url, nuovoValore, Void.class);
+        return response.getBody();
     }
 }
