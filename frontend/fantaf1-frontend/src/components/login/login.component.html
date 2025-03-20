@@ -24,6 +24,7 @@
           color="primary"
           class="full-width"
           type="submit"
+          [disabled]="loginForm.invalid || disabled"
         >
           Login
         </button>

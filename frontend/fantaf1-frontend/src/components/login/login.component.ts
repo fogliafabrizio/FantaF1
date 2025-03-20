@@ -27,6 +27,8 @@ export class LoginComponent {
   username = '';
   password = '';
 
+  disabled: boolean = false;
+
   errorMessage = '';
 
   constructor(
@@ -36,20 +38,27 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    this._fantaf1BffService.login(this.username, this.password).subscribe(
-      (data: any) => {
+    this.disabled = true;
+    this._fantaf1BffService.login(this.username, this.password).subscribe({
+      next: (data: any) => {
+        this.disabled = true;
         console.log('Login effettuato', data);
         localStorage.setItem('jwt', data.token); // 👉 salva il token
 
         this.snackBar.open('Login effettuato con successo!', '', {
-          duration: 3000,
+          duration: 2000,
         });
-        this.router.navigate(['/home']);
+        setTimeout(() => {
+          this.router.navigate(['/home']).then(() => {
+            window.location.reload();
+          });
+        }, 2000);
       },
-      (error) => {
+      error: (error) => {
+        this.disabled = false;
         console.error('Errore durante il login', error);
         this.errorMessage = 'Username o password errati';
-      }
-    );
+      },
+    });
   }
 }

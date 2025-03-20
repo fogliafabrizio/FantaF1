@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,10 +20,13 @@ import { NgIf } from '@angular/common';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  username = '';
+  username = undefined;
   token!: string;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private readonly _cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.refreshUserInfo();
@@ -44,6 +47,7 @@ export class AppComponent implements OnInit {
     if (token) {
       const decoded: any = jwtDecode(token);
       this.username = decoded.sub;
+      this._cdr.detectChanges();
     }
   }
 

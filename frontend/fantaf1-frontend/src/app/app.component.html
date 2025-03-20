@@ -1,19 +1,21 @@
-<mat-toolbar color="primary">
-  <span class="logo">FantaF1</span>
+<div class="page-container">
+  <mat-toolbar color="primary">
+    <div class="toolbar-content">
+      <span class="logo">FantaF1</span>
+      <div class="button-row">
+        <a mat-button routerLink="/home">Home</a>
+        <a mat-button routerLink="/piloti">Piloti</a>
+        <a mat-button routerLink="/live">Live</a>
+        <a mat-button routerLink="/classifiche">Classifiche</a>
+      </div>
+      <div *ngIf="username" class="user-actions">
+        <button mat-button color="info">{{ username }}</button>
+        <button mat-button color="warn" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </mat-toolbar>
 
-  <div class="button-row">
-    <a mat-button routerLink="/home">Home</a>
-    <a mat-button routerLink="/piloti">Piloti</a>
-    <a mat-button routerLink="/live">Live</a>
-    <a mat-button routerLink="/classifiche">Classifiche</a>
+  <div class="content-scrollable">
+    <router-outlet></router-outlet>
   </div>
-
-  <span class="spacer"></span>
-
-  <button mat-button color="info">{{ username }}</button>
-  <button mat-button color="warn" (click)="logout()">Logout</button>
-</mat-toolbar>
-
-<div class="content">
-  <router-outlet></router-outlet>
 </div>

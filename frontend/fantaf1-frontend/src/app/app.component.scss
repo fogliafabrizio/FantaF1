@@ -1,33 +1,53 @@
-:host {
+.page-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: #f4f6f8;
+  min-height: 100vh;
 }
 
 mat-toolbar {
   flex-shrink: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
+  height: fit-content;
+  justify-content: center;
+  align-items: center;
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+.toolbar-content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  box-sizing: border-box;
 }
 
-.button-row {
-  display: flex;
-  gap: 12px;
-  margin-left: 24px;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.content {
+.content-scrollable {
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
+  background-color: #f4f6f8;
   padding: 24px;
+}
+
+/* Se vuoi che scrolli solo il content e che la toolbar abbia altezza automatica: */
+.content-scrollable {
+  height: calc(100vh - var(--toolbar-height));
+  overflow-y: auto;
+}
+
+/* Per calcolare dinamicamente l’altezza della toolbar: */
+:root {
+  --toolbar-height: 64px; /* valore medio, puoi regolarlo */
+}
+
+@media (max-width: 768px) {
+  :root {
+    --toolbar-height: 128px; /* aumenta se la toolbar diventa più alta in responsive */
+  }
+
+  .toolbar-content {
+    justify-content: center;
+  }
 }
