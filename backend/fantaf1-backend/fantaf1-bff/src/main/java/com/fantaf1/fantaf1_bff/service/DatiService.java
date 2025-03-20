@@ -10,7 +10,12 @@ import org.openapitools.model.LimiteSceltaResponse;
 import org.openapitools.model.Pilota;
 import org.openapitools.model.PilotaConCosto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,26 +30,27 @@ public class DatiService {
 
     private ModelToPresentationMapper mapper = new ModelToPresentationMapperImpl();
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    RestTemplateUtil restTemplateUtil = new RestTemplateUtil();
+
 
     @Value("${fantaf1.dati.base-url}")
     private String baseUrl;
 
     public List<Pilota> getPilotiByAnno(int anno) {
         String url = baseUrl + "/piloti?anno=" + anno;
-        ResponseEntity<Pilota[]> response = restTemplate.getForEntity(url, Pilota[].class);
+        ResponseEntity<Pilota[]> response = restTemplateUtil.getForObject(url, Pilota[].class);
         return Arrays.asList(Objects.requireNonNull(response.getBody()));
     }
 
     public List<PilotaConCosto> getPilotaByAnnoConCosto(int anno){
         String url = baseUrl + "/piloti/con-costo?anno=" + anno;
-        ResponseEntity<PilotaConCostoDTO[]> response = restTemplate.getForEntity(url, PilotaConCostoDTO[].class);
+        ResponseEntity<PilotaConCostoDTO[]> response = restTemplateUtil.getForObject(url, PilotaConCostoDTO[].class);
         return mapper.map(response.getBody());
     }
 
     public LimiteSceltaResponse getLimiteScelta() {
         String url = baseUrl + "/gare/prossima-gara";
-        ProssimaGaraDTO nextRace = restTemplate.getForObject(url, ProssimaGaraDTO.class);
+        ProssimaGaraDTO nextRace = restTemplateUtil.getForObject(url, ProssimaGaraDTO.class).getBody();
         assert nextRace != null;
         SessionDTO[] sessions = nextRace.getSessions();
         OffsetDateTime scadenza = getScadenza(sessions);

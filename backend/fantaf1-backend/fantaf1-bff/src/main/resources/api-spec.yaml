@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: FantaF1 BFF API
-  description: BFF API che chiama i servizi /dati per recuperare le informazioni sui piloti
+  description: BFF API che chiama i servizi /dati per recuperare le informazioni sui piloti. Tutte le richieste richiedono un JWT valido presente nel cookie denominato `auth-token`.
   version: 1.0.0
 
 servers:
@@ -32,6 +32,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Pilota"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
   /fantaf1-bff/piloti-con-costo:
     get:
@@ -56,6 +62,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/PilotaConCosto"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
   /fantaf1-bff/piloti/{id}:
     get:
@@ -77,6 +89,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pilota"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "404":
+          description: Pilota non trovato
+        "500":
+          description: Errore interno del server
 
   /fantaf1-bff/limite-scelta:
     get:
@@ -91,8 +111,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LimiteSceltaResponse"
+        "401":
+          description: Non autorizzato - Token mancante o invalido nel cookie
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: auth-token
+
   schemas:
     Pilota:
       type: object
@@ -119,6 +151,7 @@ components:
         nazionalita:
           type: string
           example: "Paesi Bassi"
+
     PilotaConCosto:
       type: object
       properties:
@@ -138,6 +171,7 @@ components:
           type: integer
         nazionalita:
           type: string
+
     LimiteSceltaResponse:
       type: object
       properties:
@@ -167,3 +201,6 @@ components:
         scelteAperte:
           type: boolean
           example: true
+
+security:
+  - cookieAuth: []

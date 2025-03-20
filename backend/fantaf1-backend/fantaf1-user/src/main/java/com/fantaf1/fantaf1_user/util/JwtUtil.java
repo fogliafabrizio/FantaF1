@@ -16,10 +16,10 @@ public class JwtUtil {
     @Value("${jwt.secret-key}")
     private String jwtSecret;
 
-    private final long jwtExpirationMs = 86400000; // 24 ore
-
     public String generateJwt(String username, String role) {
         Date now = new Date();
+        // 24 ore
+        long jwtExpirationMs = 86400000;
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
@@ -29,7 +29,7 @@ public class JwtUtil {
                 .claim("role", role)
                 .issuedAt(now)
                 .expiration(expiryDate)
-                .signWith(key)
+                .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }
 }

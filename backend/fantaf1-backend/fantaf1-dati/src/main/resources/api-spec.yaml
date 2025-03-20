@@ -1,12 +1,15 @@
 openapi: 3.0.3
 info:
   title: FantaF1 Dati API
-  description: API per la gestione dei dati piloti, scuderie e circuiti della FantaFormula 1
+  description: API per la gestione dei dati piloti, scuderie e circuiti della FantaFormula 1. Tutte le richieste richiedono un JWT valido presente nel cookie denominato `auth-token`.
   version: 1.0.0
 
 servers:
   - url: http://localhost:8080
     description: Server di sviluppo locale
+
+security:
+  - cookieAuth: []
 
 paths:
   /piloti:
@@ -32,6 +35,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Pilota"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
   /piloti/{id}:
     get:
@@ -53,6 +62,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pilota"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "404":
+          description: Pilota non trovato
+        "500":
+          description: Errore interno del server
+
     post:
       summary: Aggiorna il costo del pilota tramite ID
       operationId: updatePilotCostById
@@ -74,6 +92,12 @@ paths:
       responses:
         "200":
           description: Costo del pilota aggiornato con successo
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
   /piloti/by-season-and-driver:
     get:
@@ -101,6 +125,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pilota"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
+
     post:
       summary: Aggiorna il costo del pilota tramite anno e driver_id
       operationId: updatePilotCostBySeasonAndDriver
@@ -115,6 +146,12 @@ paths:
       responses:
         "200":
           description: Costo del pilota aggiornato con successo
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
   /piloti/con-costo:
     get:
@@ -139,6 +176,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/PilotaConCosto"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
   /gare/prossima-gara:
     get:
@@ -153,8 +196,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/NextRaceResponse"
+        "401":
+          description: Non autorizzato - Token mancante o invalido
+        "403":
+          description: Accesso vietato
+        "500":
+          description: Errore interno del server
 
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: auth-token
+
   schemas:
     Pilota:
       type: object
@@ -181,6 +236,7 @@ components:
         nazionalita:
           type: string
           example: "Paesi Bassi"
+
     AggiornaCostoRequest:
       type: object
       properties:
