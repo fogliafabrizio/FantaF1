@@ -81,12 +81,10 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
   }
 
   onSelectPilota(pilota: PilotaConCosto, index: number) {
-    // Avoid duplicate selections
-    if (this.pilotiSelezionati.includes(pilota)) {
-      return;
-    }
-
+    // Update the selected pilot at the given index
     this.pilotiSelezionati[index] = pilota;
+
+    // Recalculate the total cost and remaining budget
     this.aggiornaTotale();
   }
 
@@ -100,29 +98,35 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
   }
 
   aggiornaTotale() {
+    // Calculate the total cost by summing up the `costo` of selected pilots, ignoring undefined/null values
     this.totaleCosto = this.pilotiSelezionati.reduce(
-      (sum, p) => sum + (p?.costo || 0),
+      (sum, p) => sum + (p?.costo || 0), // Add `p.costo` only if `p` is defined
       0
     );
+
+    // Update the remaining budget
     this.budgetRimanente = 100 - this.totaleCosto;
+
+    console.log('Totale Costo:', this.totaleCosto);
+    console.log('Budget Rimanente:', this.budgetRimanente);
   }
 
   isButtonDisabled() {
-    //return !this.gara?.scelteAperte || this.budgetRimanente < 0;
-    return false || this.budgetRimanente < 0;
+    return !this.gara?.scelteAperte || this.budgetRimanente < 0;
   }
 
   isSelectDisabled() {
-    //return !this.gara?.scelteAperte;
-    return false;
+    return !this.gara?.scelteAperte;
   }
 
   confermaSelezione() {
     const selezione: Selezione = {
       gpWeekendId: this.gara.id,
       driverIds: this.pilotiSelezionati.map((p) => p.id),
-      totalCost: this.totaleCosto,
     };
+
+    console.log(selezione);
+    console.log(this.pilotiSelezionati);
 
     this._bffService.confermaSelezionePiloti(selezione).subscribe({
       next: (response) => {
