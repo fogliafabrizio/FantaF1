@@ -212,6 +212,35 @@ paths:
           description: Token non valido o mancante
         "500":
           description: Errore interno del server
+    get:
+      summary: Restituisce la selezione effettuata dall’utente autenticato per un GP specifico e i crediti rimanenti
+      description: Endpoint per recuperare la selezione di un utente autenticato per un determinato GP, insieme ai crediti residui.
+      operationId: getSelezionePiloti
+      security:
+        - cookieAuth: [ ]
+      parameters:
+        - name: gpWeekendId
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 7
+      responses:
+        '200':
+          description: Selezione trovata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelezioneConCreditiResponse'
+        '400':
+          description: Parametri non validi
+        '401':
+          description: Non autorizzato - token mancante o non valido
+        '404':
+          description: Selezione non trovata
+        '500':
+          description: Errore interno del server
+
 
 components:
   securitySchemes:
@@ -326,7 +355,6 @@ components:
       required:
         - gpWeekendId
         - driverIds
-        - circuitIds
       properties:
         gpWeekendId:
           type: integer
@@ -351,3 +379,18 @@ components:
         selectionId:
           type: integer
           example: 42
+
+    SelezioneConCreditiResponse:
+      type: object
+      properties:
+        gpWeekendId:
+          type: integer
+          example: 7
+        driverIds:
+          type: array
+          items:
+            type: integer
+          example: [ 3, 8, 15 ]
+        creditsRemaining:
+          type: integer
+          example: 85

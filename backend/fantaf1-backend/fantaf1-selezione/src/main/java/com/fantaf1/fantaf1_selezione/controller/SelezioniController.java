@@ -4,6 +4,7 @@ import com.fantaf1.fantaf1_selezione.service.SelezioniService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.openapitools.api.SelezioniApi;
+import org.openapitools.model.InfoSelezioneResponse;
 import org.openapitools.model.SelezioneRequest;
 import org.openapitools.model.SelezioneResponse;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,13 @@ public class SelezioniController implements org.openapitools.api.SelezioniApi {
     private final SelezioniService selezioniService;
 
     @Override
-    public ResponseEntity<SelezioneResponse> getSelezione(Integer gpWeekendId) {
-        return SelezioniApi.super.getSelezione(gpWeekendId);
+    public ResponseEntity<SelezioneResponse> salvaSelezione(SelezioneRequest selezioneRequest) {
+        return ResponseEntity.ok(selezioniService.saveSelezione(selezioneRequest, getUserIdFromContext()));
     }
 
     @Override
-    public ResponseEntity<SelezioneResponse> salvaSelezione(SelezioneRequest selezioneRequest) {
-        return ResponseEntity.ok(selezioniService.saveSelezione(selezioneRequest, getUserIdFromContext()));
+    public ResponseEntity<InfoSelezioneResponse> getSelezione(Integer gpWeekendId) {
+        return ResponseEntity.ok(selezioniService.getSelezione(gpWeekendId, getUserIdFromContext()));
     }
 
     private Long getUserIdFromContext() {

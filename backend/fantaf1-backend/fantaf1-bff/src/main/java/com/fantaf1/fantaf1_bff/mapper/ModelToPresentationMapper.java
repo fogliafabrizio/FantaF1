@@ -1,15 +1,9 @@
 package com.fantaf1.fantaf1_bff.mapper;
 
-import com.fantaf1.fantaf1_bff.model.LoginDTO;
-import com.fantaf1.fantaf1_bff.model.PilotaConCostoDTO;
-import com.fantaf1.fantaf1_bff.model.ProssimaGaraDTO;
-import com.fantaf1.fantaf1_bff.model.SelezioneResponseDTO;
+import com.fantaf1.fantaf1_bff.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.openapitools.model.JwtResponse;
-import org.openapitools.model.LimiteSceltaResponse;
-import org.openapitools.model.PilotaConCosto;
-import org.openapitools.model.SelezioneResponse;
+import org.openapitools.model.*;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -45,4 +39,6 @@ public interface ModelToPresentationMapper {
     @Mapping(target = "status", constant = "OK" )
     @Mapping(target = "message", constant = "Selezione effettuata con successo")
     SelezioneResponse map(SelezioneResponseDTO responseDTO);
+
+    SelezioneConCreditiResponse map(GetInfoSelezioneDTO body);
 }

@@ -3,3 +3,9 @@ export interface Selezione {
   driverIds: number[];
   totalCost: number;
 }
+
+export interface SelezionePiloti {
+  gpWeekendId: number;
+  driverIds: number[];
+  creditsRemaining?: number;
+}

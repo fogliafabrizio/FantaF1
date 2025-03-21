@@ -4,6 +4,7 @@ import com.fantaf1.fantaf1_selezione.entity.SelectedDriver;
 import com.fantaf1.fantaf1_selezione.entity.UserSelection;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.openapitools.model.InfoSelezioneResponse;
 import org.openapitools.model.SelezioneResponse;
 
 import java.time.LocalDateTime;
@@ -31,4 +32,11 @@ public interface EntityToPresentationMapper {
     default OffsetDateTime map(LocalDateTime localDateTime) {
         return localDateTime.atZone(ZoneId.of("Europe/Rome")).toOffsetDateTime(); // oppure usa ZoneId.of(\"Europe/Rome\") se vuoi il fuso locale
     }
+
+    @Mapping(target = "id", source = "selection.id")
+    @Mapping(target = "gpWeekendId", source = "gpWeekendId")
+    @Mapping(target = "driverIds", source = "selection.selectedDrivers")
+    @Mapping(target = "creditsRemaining", source = "budget")
+    InfoSelezioneResponse map(Integer gpWeekendId, UserSelection selection, int budget);
+
 }

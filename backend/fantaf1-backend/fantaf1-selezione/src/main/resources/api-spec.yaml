@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SelezioneResponse'
+                $ref: '#/components/schemas/InfoSelezioneResponse'
         '404':
           description: Selezione non trovata
         '401':
@@ -111,7 +111,24 @@ components:
           type: array
           items:
             type: integer
-          example: [3, 8, 15]
+          example: [ 3, 8, 15 ]
         createdAt:
           type: string
           format: date-time
+    InfoSelezioneResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        gpWeekendId:
+          type: integer
+          example: 7
+        driverIds:
+          type: array
+          items:
+            type: integer
+          example: [3, 8, 15]
+        creditsRemaining:
+          type: integer
+          example: 85

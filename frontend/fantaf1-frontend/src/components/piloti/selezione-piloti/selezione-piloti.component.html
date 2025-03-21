@@ -21,8 +21,8 @@
         <mat-label>Pilota {{ slot }}</mat-label>
         <mat-select
           [disabled]="isSelectDisabled()"
-          (selectionChange)="onSelectPilota($event.value, i)"
-        >
+          [(value)]="pilotiSelezionati[i]"
+          (selectionChange)="onSelectPilota($event.value, i)" >
           <mat-option
             *ngFor="let pilota of getPilotiDisponibili(i)"
             [value]="pilota"
@@ -36,7 +36,7 @@
     <h4>Piloti selezionati:</h4>
     <ul>
       <li *ngFor="let p of pilotiSelezionati">
-        {{ p.nome }} {{ p.cognome }} - {{ p.costo }} crediti
+        {{ p?.nome }} {{ p?.cognome }} - {{ p?.costo }} crediti
       </li>
     </ul>
 

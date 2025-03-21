@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Pilota, PilotaConCosto } from '../models/piloti.model';
 import { Gara } from '../models/gare.model';
-import { Selezione } from './fantaf1-bff.model';
+import { Selezione, SelezionePiloti } from './fantaf1-bff.model';
 
 @Injectable({
   providedIn: 'root',
@@ -50,5 +50,11 @@ export class Fantaf1BffService {
 
   confermaSelezionePiloti(selezione: Selezione): Observable<any> {
     return this._httpClient.post(`${this.baseUrl}/selezione`, selezione);
+  }
+
+  getSelezionePiloti(gpWeekendId: number): Observable<SelezionePiloti> {
+    return this._httpClient.get<SelezionePiloti>(`${this.baseUrl}/selezione`, {
+      params: { gpWeekendId: gpWeekendId.toString() },
+    });
   }
 }

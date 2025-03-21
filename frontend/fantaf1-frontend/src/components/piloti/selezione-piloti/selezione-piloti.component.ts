@@ -36,14 +36,18 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
 
         this.scadenzaSelezioni = response?.scadenzaScelte || '';
         this.startCountdown();
+
+        // Perform the second call only after the first one is completed
+        this._bffService.getSelezionePiloti(this.gara.id).subscribe({
+          next: (response) => {
+            this.pilotiSelezionati = response.driverIds.map((id) =>
+              this.piloti.find((p) => p.id === id)
+            );
+            this.aggiornaTotale();
+          },
+        });
       },
     });
-
-    /*this._bffService.getSelezionePiloti().subscribe({
-      next: (response) => {
-        this.pilotiSelezionati = response;
-        this.aggiornaTotale();
-      }*/
   }
 
   ngOnDestroy(): void {
@@ -76,8 +80,8 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  onSelectPilota(pilota: any, index: number) {
-    // Evita selezioni duplicate
+  onSelectPilota(pilota: PilotaConCosto, index: number) {
+    // Avoid duplicate selections
     if (this.pilotiSelezionati.includes(pilota)) {
       return;
     }
@@ -119,8 +123,6 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
       driverIds: this.pilotiSelezionati.map((p) => p.id),
       totalCost: this.totaleCosto,
     };
-
-    console.log(selezione);
 
     this._bffService.confermaSelezionePiloti(selezione).subscribe({
       next: (response) => {

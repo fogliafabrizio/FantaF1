@@ -57,11 +57,8 @@ public class BFFController implements Fantaf1BffApi {
         }
     }
 
-    private Long getUserIdFromContext() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof Jwt jwt) {
-            return jwt.getClaim("userId");
-        }
-        throw new RuntimeException("UserId not found in JWT");
+    @Override
+    public ResponseEntity<SelezioneConCreditiResponse> getSelezionePiloti(Integer gpWeekendId) {
+        return ResponseEntity.ok(selezioneService.getInfoSelezione(gpWeekendId));
     }
 }

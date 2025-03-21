@@ -13,6 +13,7 @@ import com.fantaf1.fantaf1_selezione.repository.UserSelectionRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.InfoSelezioneResponse;
 import org.openapitools.model.SelezioneRequest;
 import org.openapitools.model.SelezioneResponse;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,7 @@ public class SelezioniService {
     public SelezioneResponse saveSelezione(SelezioneRequest selezioneRequest, Long userIdFromContext) {
 
         // 1. Recupera i crediti disponibili per quel weekend
-        UserCredit userCredit = userCreditRepository.findByUserIdAndGpWeekendId(userIdFromContext, selezioneRequest.getGpWeekendId())
-                .orElseGet(() -> userCreditRepository.save(UserCredit.builder()
-                        .userId(userIdFromContext)
-                        .gpWeekendId(Long.valueOf(selezioneRequest.getGpWeekendId()))
-                        .creditsUsed(0)
-                        .build()));
+        UserCredit userCredit = getUserCredit(selezioneRequest.getGpWeekendId(), userIdFromContext);
 
         //  Recupera i crediti rimasti nella stagione
 
@@ -96,9 +92,30 @@ public class SelezioniService {
     private int getExtraCreditsUser(Long userIdFromContext, Long gpWeekendId) {
         List<UserCreditRemaining> userCredits = userCreditRemainingRepository.findAllByUserIdAndSeason(userIdFromContext, LocalDate.now().getYear());
         // Somma tutti i crediti tranne quelli del weekendId
+        //  TODO: Potresti aggiungere la data e aggiungere solo quelli PRIMA del giorno della gara!
+        //  TODO: Rendere ad esempio le scelte immutibili dopo il giorno della gara.
         return userCredits.stream()
                 .filter(uc -> !uc.getGpWeekendId().equals(gpWeekendId))
                 .mapToInt(UserCreditRemaining::getCreditsRemaining)
                 .sum();
+    }
+
+    public InfoSelezioneResponse getSelezione(Integer gpWeekendId, Long userIdFromContext) {
+        UserSelection selection = userSelectionRepository.findByUserIdAndGpWeekendId(userIdFromContext, Long.valueOf(gpWeekendId)).orElse(new UserSelection());
+        int budget = 100 + getExtraCreditsUser(userIdFromContext, Long.valueOf(gpWeekendId));
+        if(!selection.getSelectedDrivers().isEmpty()){
+            UserCredit credit = getUserCredit(gpWeekendId, userIdFromContext);
+            budget = 100 + getExtraCreditsUser(userIdFromContext, Long.valueOf(gpWeekendId)) - credit.getCreditsUsed();
+        }
+        return e2p.map(gpWeekendId, selection, budget);
+    }
+
+    private UserCredit getUserCredit(Integer gpWeekendId, Long userIdFromContext) {
+        return userCreditRepository.findByUserIdAndGpWeekendId(userIdFromContext, gpWeekendId)
+                .orElseGet(() -> userCreditRepository.save(UserCredit.builder()
+                        .userId(userIdFromContext)
+                        .gpWeekendId(Long.valueOf(gpWeekendId))
+                        .creditsUsed(0)
+                        .build()));
     }
 }
