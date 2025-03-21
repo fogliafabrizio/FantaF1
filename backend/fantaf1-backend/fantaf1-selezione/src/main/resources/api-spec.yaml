@@ -1,0 +1,117 @@
+openapi: 3.0.3
+info:
+  title: FantaF1 Selezioni API
+  description: API per la gestione delle selezioni piloti. Tutte le richieste richiedono un JWT valido nel cookie `auth-token`, da cui viene estratto il `userId`.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8085
+    description: Server di sviluppo locale
+
+security:
+  - cookieAuth: []
+
+paths:
+  /selezioni:
+    post:
+      summary: Salva la selezione di un utente per un determinato GP
+      operationId: salvaSelezione
+      tags:
+        - Selezioni
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelezioneRequest'
+      responses:
+        '200':
+          description: Selezione salvata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelezioneResponse'
+        '400':
+          description: Richiesta non valida
+        '401':
+          description: Non autorizzato - Token mancante o invalido
+        '500':
+          description: Errore interno del server
+
+  /selezioni/{gpWeekendId}:
+    get:
+      summary: Restituisce la selezione effettuata dall’utente autenticato per un GP specifico
+      operationId: getSelezione
+      tags:
+        - Selezioni
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: gpWeekendId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Selezione trovata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelezioneResponse'
+        '404':
+          description: Selezione non trovata
+        '401':
+          description: Non autorizzato - Token mancante o invalido
+        '500':
+          description: Errore interno del server
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: auth-token
+
+  schemas:
+    SelezioneRequest:
+      type: object
+      required:
+        - gpWeekendId
+        - driverIds
+        - circuitIds
+        - totalCost
+      properties:
+        gpWeekendId:
+          type: integer
+          example: 7
+        driverIds:
+          type: array
+          items:
+            type: integer
+          minItems: 3
+          maxItems: 3
+          example: [3, 8, 15]
+        totalCost:
+          type: integer
+          example: 45
+
+    SelezioneResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        gpWeekendId:
+          type: integer
+          example: 7
+        driverIds:
+          type: array
+          items:
+            type: integer
+          example: [3, 8, 15]
+        createdAt:
+          type: string
+          format: date-time

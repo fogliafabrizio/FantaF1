@@ -1,0 +1,46 @@
+<configuration>
+    <property name="LOG_DIR" value="logs"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- Console Logging -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Logging con Rotazione Giornaliera + Limite di Dimensione -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/fantaf1-selezione.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Nome file con data e rotazione per dimensione -->
+            <fileNamePattern>${LOG_DIR}/fantaf1-selezione-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <!-- Rotazione giornaliera -->
+            <maxHistory>7</maxHistory> <!-- Mantiene log degli ultimi 7 giorni -->
+
+            <!-- Dimensione massima per singolo file -->
+            <maxFileSize>10MB</maxFileSize>
+
+            <!-- Spazio massimo per tutti i log -->
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger di FantaF1 -->
+    <logger name="com.fantaf1.selezione" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <!-- Logger Spring (limitato per evitare spam) -->
+    <logger name="org.springframework" level="WARN"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

@@ -1,11 +1,16 @@
 package com.fantaf1.fantaf1_bff.controller;
 
 import com.fantaf1.fantaf1_bff.service.DatiService;
+import com.fantaf1.fantaf1_bff.service.SelezioneService;
 import com.fantaf1.fantaf1_bff.service.UserService;
+import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.Fantaf1BffApi;
 import org.openapitools.model.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,6 +21,7 @@ public class BFFController implements Fantaf1BffApi {
 
     private final DatiService datiService;
     private final UserService userService;
+    private final SelezioneService selezioneService;
 
     @Override
     public ResponseEntity<LimiteSceltaResponse> getLimiteScelta() {
@@ -40,5 +46,22 @@ public class BFFController implements Fantaf1BffApi {
     @Override
     public ResponseEntity<Void> aggiornaCostoPilota(Integer id, AggiornaCostoRequest aggiornaCostoRequest) {
         return ResponseEntity.ok(datiService.aggiornaCostoPilota(id, aggiornaCostoRequest));
+    }
+
+    @Override
+    public ResponseEntity<SelezioneResponse> selezionePiloti(SelezioneRequest selezioneRequest) {
+        if(datiService.isScelteAperte(selezioneRequest.getGpWeekendId())){
+            return ResponseEntity.ok(selezioneService.selezionePiloti(selezioneRequest, datiService.getTotalCosto(selezioneRequest)));
+        } else {
+            throw new RuntimeException("Scelte non aperte");
+        }
+    }
+
+    private Long getUserIdFromContext() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof Jwt jwt) {
+            return jwt.getClaim("userId");
+        }
+        throw new RuntimeException("UserId not found in JWT");
     }
 }

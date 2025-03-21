@@ -186,6 +186,33 @@ paths:
         "500":
           description: Errore interno del server
 
+  /fantaf1-bff/selezione:
+    post:
+      summary: Seleziona i piloti e circuiti per un weekend di gara
+      description: Endpoint per inviare la selezione di un utente per un GP specifico
+      operationId: selezionePiloti
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelezioneRequest'
+      responses:
+        "200":
+          description: Selezione registrata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelezioneResponse'
+        "400":
+          description: Errore di validazione input
+        "401":
+          description: Token non valido o mancante
+        "500":
+          description: Errore interno del server
+
 components:
   securitySchemes:
     cookieAuth:
@@ -293,3 +320,34 @@ components:
         nuovoValore:
           type: integer
           example: 45
+
+    SelezioneRequest:
+      type: object
+      required:
+        - gpWeekendId
+        - driverIds
+        - circuitIds
+      properties:
+        gpWeekendId:
+          type: integer
+          example: 7
+        driverIds:
+          type: array
+          items:
+            type: integer
+          minItems: 3
+          maxItems: 3
+          example: [ 3, 8, 15 ]
+
+    SelezioneResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Selezione salvata correttamente"
+        selectionId:
+          type: integer
+          example: 42

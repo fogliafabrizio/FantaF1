@@ -12,6 +12,7 @@
         <module>fantaf1-dati</module>
         <module>fantaf1-bff</module>
         <module>fantaf1-user</module>
+        <module>fantaf1-selezione</module>
     </modules>
 
     <properties>

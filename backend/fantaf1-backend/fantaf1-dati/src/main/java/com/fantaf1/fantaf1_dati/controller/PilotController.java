@@ -37,6 +37,11 @@ public class PilotController implements PilotiApi {
     }
 
     @Override
+    public ResponseEntity<Integer> getTotaleCostoPiloti(List<Integer> requestBody) {
+        return ResponseEntity.ok(pilotService.getTotalCostOfDrivers(requestBody));
+    }
+
+    @Override
     public ResponseEntity<Void> updatePilotCostById(Integer id, AggiornaCostoRequest aggiornaCostoRequest) {
         return ResponseEntity.ok(pilotService.updateDriverCostById(Long.valueOf(id), aggiornaCostoRequest.getNuovoValore()));
     }

@@ -171,4 +171,12 @@ public class PilotService {
     }
 
 
+    public Integer getTotalCostOfDrivers(List<Integer> driverIds) {
+        return driverIds.stream()
+                .map(id -> pilotCurrentCreditRepository.findByPilotId(Long.valueOf(id))
+                        .orElseThrow(() -> new RuntimeException("Pilota non trovato")))
+                .map(PilotCurrentCredit::getCurrentValue) // estraggo il credito
+                .reduce(0, Integer::sum); // sommo
+    }
+
 }

@@ -6,10 +6,8 @@ import com.fantaf1.fantaf1_bff.model.PilotaConCostoDTO;
 import com.fantaf1.fantaf1_bff.model.ProssimaGaraDTO;
 import com.fantaf1.fantaf1_bff.model.SessionDTO;
 import com.fantaf1.fantaf1_bff.model.enums.SessionType;
-import org.openapitools.model.AggiornaCostoRequest;
-import org.openapitools.model.LimiteSceltaResponse;
-import org.openapitools.model.Pilota;
-import org.openapitools.model.PilotaConCosto;
+import jakarta.validation.constraints.NotNull;
+import org.openapitools.model.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -68,6 +66,16 @@ public class DatiService {
     public Void aggiornaCostoPilota(Integer id, AggiornaCostoRequest nuovoValore) {
         String url = baseUrl + "/piloti/" + id;
         ResponseEntity<Void> response = restTemplateUtil.postForObject(url, nuovoValore, Void.class);
+        return response.getBody();
+    }
+
+    public boolean isScelteAperte(@NotNull Integer gpWeekendId) {
+        return true; // TODO
+    }
+
+    public int getTotalCosto(SelezioneRequest selezioneRequest) {
+        String url = baseUrl + "/piloti/totale-costo";
+        ResponseEntity<Integer> response = restTemplateUtil.postForObject(url, selezioneRequest.getDriverIds(), Integer.class);
         return response.getBody();
     }
 }

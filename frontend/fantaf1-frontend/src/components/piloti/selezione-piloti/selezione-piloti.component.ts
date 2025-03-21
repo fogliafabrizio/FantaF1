@@ -6,6 +6,7 @@ import { PilotaConCosto } from '../../../models/piloti.model';
 import { MatButtonModule } from '@angular/material/button';
 import { Fantaf1BffService } from '../../../service/fantaf1-bff.service';
 import { Gara } from '../../../models/gare.model';
+import { Selezione } from '../../../service/fantaf1-bff.model';
 
 @Component({
   selector: 'ff1-selezione-piloti',
@@ -37,6 +38,12 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
         this.startCountdown();
       },
     });
+
+    /*this._bffService.getSelezionePiloti().subscribe({
+      next: (response) => {
+        this.pilotiSelezionati = response;
+        this.aggiornaTotale();
+      }*/
   }
 
   ngOnDestroy(): void {
@@ -97,6 +104,32 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
   }
 
   isButtonDisabled() {
-    return !this.gara?.scelteAperte || this.budgetRimanente < 0;
+    //return !this.gara?.scelteAperte || this.budgetRimanente < 0;
+    return false || this.budgetRimanente < 0;
+  }
+
+  isSelectDisabled() {
+    //return !this.gara?.scelteAperte;
+    return false;
+  }
+
+  confermaSelezione() {
+    const selezione: Selezione = {
+      gpWeekendId: this.gara.id,
+      driverIds: this.pilotiSelezionati.map((p) => p.id),
+      totalCost: this.totaleCosto,
+    };
+
+    console.log(selezione);
+
+    this._bffService.confermaSelezionePiloti(selezione).subscribe({
+      next: (response) => {
+        alert('Selezione confermata con successo');
+        console.log(response);
+      },
+      error: () => {
+        alert('Errore durante la conferma della selezione');
+      },
+    });
   }
 }

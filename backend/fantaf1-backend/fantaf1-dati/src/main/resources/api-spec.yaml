@@ -182,6 +182,35 @@ paths:
           description: Accesso vietato
         "500":
           description: Errore interno del server
+  /piloti/totale-costo:
+    post:
+      summary: Restituisce il totale del costo dei piloti
+      description: Calcola il costo totale dei piloti ricevendo un array di 3 driverId.
+      operationId: getTotaleCostoPiloti
+      tags:
+        - Piloti
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+              example: [ 1, 2, 3 ]
+      responses:
+        '200':
+          description: Totale costo calcolato correttamente
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 45
+        '400':
+          description: Richiesta non valida
+        '500':
+          description: Errore interno del server
+
 
   /gare/prossima-gara:
     get:

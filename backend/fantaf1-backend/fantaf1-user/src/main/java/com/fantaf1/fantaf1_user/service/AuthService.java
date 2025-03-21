@@ -23,7 +23,7 @@ public class AuthService {
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
 
         if(bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())){
-            return jwtUtil.generateJwt(user.getUsername(), user.getRole().getRole());
+            return jwtUtil.generateJwt(user.getId(), user.getUsername(), user.getRole().getRole());
         } else {
             throw new RuntimeException("Password not valid");
         }

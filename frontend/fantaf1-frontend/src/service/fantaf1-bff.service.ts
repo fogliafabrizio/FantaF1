@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Pilota, PilotaConCosto } from '../models/piloti.model';
 import { Gara } from '../models/gare.model';
+import { Selezione } from './fantaf1-bff.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,5 +46,9 @@ export class Fantaf1BffService {
         nuovoValore: costo,
       }
     );
+  }
+
+  confermaSelezionePiloti(selezione: Selezione): Observable<any> {
+    return this._httpClient.post(`${this.baseUrl}/selezione`, selezione);
   }
 }
