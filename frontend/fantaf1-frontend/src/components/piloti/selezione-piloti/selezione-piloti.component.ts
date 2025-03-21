@@ -40,6 +40,8 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
         // Perform the second call only after the first one is completed
         this._bffService.getSelezionePiloti(this.gara.id).subscribe({
           next: (response) => {
+            this.budgetRimanente =
+              this.budgetRimanente + (response.creditsRemaining ?? 0);
             this.pilotiSelezionati = response.driverIds.map((id) =>
               this.piloti.find((p) => p.id === id)
             );
@@ -105,7 +107,7 @@ export class SelezionePilotiComponent implements OnInit, OnDestroy {
     );
 
     // Update the remaining budget
-    this.budgetRimanente = 100 - this.totaleCosto;
+    this.budgetRimanente = this.budgetRimanente - this.totaleCosto;
 
     console.log('Totale Costo:', this.totaleCosto);
     console.log('Budget Rimanente:', this.budgetRimanente);

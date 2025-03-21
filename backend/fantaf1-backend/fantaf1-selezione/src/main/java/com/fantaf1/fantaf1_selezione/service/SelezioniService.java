@@ -102,12 +102,7 @@ public class SelezioniService {
 
     public InfoSelezioneResponse getSelezione(Integer gpWeekendId, Long userIdFromContext) {
         UserSelection selection = userSelectionRepository.findByUserIdAndGpWeekendId(userIdFromContext, Long.valueOf(gpWeekendId)).orElse(new UserSelection());
-        int budget = 100 + getExtraCreditsUser(userIdFromContext, Long.valueOf(gpWeekendId));
-        if(!selection.getSelectedDrivers().isEmpty()){
-            UserCredit credit = getUserCredit(gpWeekendId, userIdFromContext);
-            budget = 100 + getExtraCreditsUser(userIdFromContext, Long.valueOf(gpWeekendId)) - credit.getCreditsUsed();
-        }
-        return e2p.map(gpWeekendId, selection, budget);
+        return e2p.map(gpWeekendId, selection, getExtraCreditsUser(userIdFromContext, Long.valueOf(gpWeekendId)));
     }
 
     private UserCredit getUserCredit(Integer gpWeekendId, Long userIdFromContext) {
